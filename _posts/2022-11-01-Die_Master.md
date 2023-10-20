@@ -11,11 +11,11 @@ Application I wrote and published to the [App Store](https://apps.apple.com/us/a
 
 The crux of making my roll system robust is my Event struct. This records any action that the user can take rolling a dice, making an attack, activating an ability, etc. What values are optional suddenly changes the way the application chooses to display the event.
 
-![[Pasted image 20230919145110.png]]
+![Image of Goblin - Scimitar](/assets/DMImage1.png)
 
-![[Pasted image 20230919145155.png]]
+![Image of Goblin - nimble escape](/assets/DMImage2.png)
 
-![[Pasted image 20230919145258.png]]
+![Image of Goblin - damage](/assets/DMImage3.png)
 
 All of the above views have the same exact Event struct providing the data, but SwiftUI treats them completely differently, providing unique displays depending on what the important information is. It's a small thing, but I feel it shows a significant improvement from my first application, in terms of understanding and utilizing the power of SwiftUI combined with MVVM.
 
