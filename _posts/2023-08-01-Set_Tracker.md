@@ -7,6 +7,7 @@ categories: media
 
 WWDC 2023 came with a ton of interesting new functionality that I had been hoping for and I created this application to explore. Specifically, SwiftData and Swift Charts were extremely interesting. I had familiar working with the Core Data  APIs in previous applications, but found it a less than ideal integration into MVVM and SwiftUI.
 
+
 The application that I would explore these new features with is design to keep track of setting at a rock gym. So what dose it do? Saves all of the logistical information you need to track for commercial gym setting (SwiftData), and cleanly presents the data in a visual manner that is easily digestible (Swift Charts).
 
 Swift data is amazing, and was simultaneously the easiest and hardest part of developing this application. On the easy side, creating your models is trivial: 
