@@ -3,7 +3,7 @@ layout: page
 title: ""
 ---
 
-## About me
+### About me
 As for what I'm doing when I'm not programming you can probably find me climbing listening to a podcast or playing chess.
 
 ---
