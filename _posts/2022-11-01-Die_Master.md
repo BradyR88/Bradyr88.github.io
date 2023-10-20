@@ -13,7 +13,7 @@ The crux of making my roll system robust is my Event struct. This records any ac
 
 ![Image of Goblin - Scimitar](/assets/DMImage1.png)
 
-![Image of Goblin - nimble escape](/assets/DMImage2.png)
+![Image of Goblin - nimble escape](/assets/DmImage2.png)
 
 ![Image of Goblin - damage](/assets/DMImage3.png)
 
