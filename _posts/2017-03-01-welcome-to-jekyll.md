@@ -1,25 +1,67 @@
 ---
-title: "Welcome to Jekyll"
+title: "Fiber Counter"
 layout: post
 ---
 
-You’ll find this post in your `_posts` directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run `jekyll serve`, which launches a web server and auto-regenerates your site when a file is updated.
+This is the first application I wrote and published to the [App Store](https://apps.apple.com/us/app/fiber-counter/id1616530799). It was purely a learning exercise to follow an idea through from start to navigating App Store review. Undoubtedly, the most interesting part of this early project was the fact that I had to dip into UIViewControllerRepresentable in order to support emailing functionality that I wanted.
 
+```Swift
+struct MailView: UIViewControllerRepresentable {
+  @Environment(\.presentationMode) var presentation
+  @Binding var data: ComposeMailData
+  let callback: MailViewCallback
 
-To add new posts, simply add a file in the `_posts` directory that follows the convention `YYYY-MM-DD-name-of-post.ext` and includes the necessary front matter. Take a look at the source for this post to get an idea about how it works.
+  class Coordinator: NSObject, MFMailComposeViewControllerDelegate {
+    @Binding var presentation: PresentationMode
+    @Binding var data: ComposeMailData
+    let callback: MailViewCallback
 
-Jekyll also offers powerful support for code snippets:
+    init(presentation: Binding<PresentationMode>,
+         data: Binding<ComposeMailData>,
+         callback: MailViewCallback) {
+      _presentation = presentation
+      _data = data
+      self.callback = callback
+    }
 
-{% highlight ruby %}
-def print_hi(name)
-  puts "Hi, #{name}"
-end
-print_hi('Tom')
-#=> prints 'Hi, Tom' to STDOUT.
-{% endhighlight %}
+    func mailComposeController(_ controller: MFMailComposeViewController,
+                               didFinishWith result: MFMailComposeResult,
+                               error: Error?) {
+      if let error = error {
+        callback?(.failure(error))
+      } else {
+        callback?(.success(result))
+      }
+      $presentation.wrappedValue.dismiss()
+    }
+  }
 
-Check out the [Jekyll docs][jekyll-docs] for more info on how to get the most out of Jekyll. File all bugs/feature requests at [Jekyll’s GitHub repo][jekyll-gh]. If you have questions, you can ask them on [Jekyll Talk][jekyll-talk].
+  func makeCoordinator() -> Coordinator {
+    Coordinator(presentation: presentation, data: $data, callback: callback)
+  }
 
-[jekyll-docs]: http://jekyllrb.com/docs/home
-[jekyll-gh]:   https://github.com/jekyll/jekyll
-[jekyll-talk]: https://talk.jekyllrb.com/
+  func makeUIViewController(context: UIViewControllerRepresentableContext<MailView>) -> MFMailComposeViewController {
+    let vc = MFMailComposeViewController()
+    vc.mailComposeDelegate = context.coordinator
+    vc.setSubject(data.subject)
+    vc.setToRecipients(data.recipients)
+    vc.setMessageBody(data.message, isHTML: false)
+    data.attachments?.forEach {
+      vc.addAttachmentData($0.data, mimeType: $0.mimeType, fileName: $0.fileName)
+    }
+    vc.accessibilityElementDidLoseFocus()
+    return vc
+  }
+
+  func updateUIViewController(_ uiViewController: MFMailComposeViewController,
+                              context: UIViewControllerRepresentableContext<MailView>) {
+  }
+
+  static var canSendMail: Bool {
+    MFMailComposeViewController.canSendMail()
+  }
+}
+```
+
+What is this a nice thing to do to myself as a new Swift and SwiftUI developer? No.  
+Did I get the emailing functionality working? Yes.
