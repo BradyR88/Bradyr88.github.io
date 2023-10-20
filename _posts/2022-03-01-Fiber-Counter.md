@@ -4,7 +4,7 @@ layout: post
 categories: media
 ---
 
-![App Icon](https://github.com/BradyR88/bradyr88.github.io/blob/482d57f0ed6e914e742bd610cd6b890b32b3e212/assets/Asbestos_Icon.jpeg)
+![App Icon](/assets/Asbestos_Icon.jpeg)
 
 This is the first application I wrote and published to the [App Store](https://apps.apple.com/us/app/fiber-counter/id1616530799). It was purely a learning exercise to follow an idea through from start to navigating App Store review. Undoubtedly, the most interesting part of this early project was the fact that I had to dip into UIViewControllerRepresentable in order to support emailing functionality that I wanted.
 
