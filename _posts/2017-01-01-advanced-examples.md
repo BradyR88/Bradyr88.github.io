@@ -1,63 +1,79 @@
 ---
-title:  "Advanced examples"
-mathjax: true
+title:  "Die Master"
 layout: post
 categories: media
 ---
 
-![Swiss Alps](https://user-images.githubusercontent.com/4943215/55412536-edbba180-5567-11e9-9c70-6d33bca3f8ed.jpg)
+![Die Master App Icon](/assets/DM_Icon.png)
 
 
-## MathJax
+Application I wrote and published to the [App Store](https://apps.apple.com/us/app/die-master/id6443835851), which helps DM's track encounters in role-playing games. My goals with this application was twofold. One create a robust rolling system that tracked past roles and accounted for the variety of different events types that can occur while playing a role-playing game. Second, handle JSON in such a way that the app can ingest new monsters and characters easily.
 
-You can enable MathJax by setting `mathjax: true` on a page or globally in the `_config.yml`. Some examples:
+The crux of making my roll system robust is my Event struct. This records any action that the user can take rolling a dice, making an attack, activating an ability, etc. What values are optional suddenly changes the way the application chooses to display the event.
 
-[Euler's formula](https://en.wikipedia.org/wiki/Euler%27s_formula) relates the  complex exponential function to the trigonometric functions.
+![[Pasted image 20230919145110.png]]
 
-$$ e^{i\theta}=\cos(\theta)+i\sin(\theta) $$
+![[Pasted image 20230919145155.png]]
 
-The [Euler-Lagrange](https://en.wikipedia.org/wiki/Lagrangian_mechanics) differential equation is the fundamental equation of calculus of variations.
+![[Pasted image 20230919145258.png]]
 
-$$ \frac{\mathrm{d}}{\mathrm{d}t} \left ( \frac{\partial L}{\partial \dot{q}} \right ) = \frac{\partial L}{\partial q} $$
+All of the above views have the same exact Event struct providing the data, but SwiftUI treats them completely differently, providing unique displays depending on what the important information is. It's a small thing, but I feel it shows a significant improvement from my first application, in terms of understanding and utilizing the power of SwiftUI combined with MVVM.
 
-The [Schrödinger equation](https://en.wikipedia.org/wiki/Schr%C3%B6dinger_equation) describes how the quantum state of a quantum system changes with time.
+As for the backend, the application can except JSON (like what is shown below) and converted into monsters that the app maintains in storage. This would make it much easier for users to eventually be able to share content that they have created.
 
-$$ i\hbar\frac{\partial}{\partial t} \Psi(\mathbf{r},t) = \left [ \frac{-\hbar^2}{2\mu}\nabla^2 + V(\mathbf{r},t)\right ] \Psi(\mathbf{r},t) $$
-
-## Code
-
-Embed code by putting `{{ "{% highlight language " }}%}` `{{ "{% endhighlight " }}%}` blocks around it. Adding the parameter `linenos` will show source lines besides the code.
-
-{% highlight c %}
-
-static void asyncEnabled(Dict* args, void* vAdmin, String* txid, struct Allocator* requestAlloc)
-{
-    struct Admin* admin = Identity_check((struct Admin*) vAdmin);
-    int64_t enabled = admin->asyncEnabled;
-    Dict d = Dict_CONST(String_CONST("asyncEnabled"), Int_OBJ(enabled), NULL);
-    Admin_sendMessage(&d, txid, admin);
-}
-
-{% endhighlight %}
-
-## Gists
-
-With the `jekyll-gist` plugin, which is preinstalled on Github Pages, you can embed gists simply by using the `gist` command:
-
-<script src="https://gist.github.com/5555251.js?file=gist.md"></script>
-
-## Images
-
-Upload an image to the *assets* folder and embed it with `![title](/assets/name.jpg))`. Keep in mind that the path needs to be adjusted if Jekyll is run inside a subfolder.
-
-A wrapper `div` with the class `large` can be used to increase the width of an image or iframe.
-
-![Flower](https://user-images.githubusercontent.com/4943215/55412447-bcdb6c80-5567-11e9-8d12-b1e35fd5e50c.jpg)
-
-[Flower](https://unsplash.com/photos/iGrsa9rL11o) by Tj Holowaychuk
-
-## Embedded content
-
-You can also embed a lot of stuff, for example from YouTube, using the `embed.html` include.
-
-{% include embed.html url="https://www.youtube.com/embed/_C0A5zX-iqM" %}
+```JSON
+[
+  {
+    "abilaty": [
+      {
+        "id": "9ED8654D-3886-498C-B9F0-B30A92AB5247",
+        "name": "Brute",
+        "discription": " A melee weapon deals one extra die of its damage when the bugbear hits with it (included in the attack)."
+      },
+      {
+        "discription": "If the bugbear surprises a creature and hits it with an attack during the first round of combat, the target takes an extra 7 (2d6) damage from the attack.",
+        "id": "CCA91B9A-3061-4544-8654-22231C2163E9",
+        "name": "Surprise Attack",
+        "onHit": {
+          "numberOfDice": 2,
+          "numberOfSides": 6,
+          "toAdd": 0
+        }
+      },
+      {
+        "id": "A776E7A0-90D2-4DAE-8A0B-99B585CB002F",
+        "name": "Morningstar",
+        "roll": {
+          "numberOfDice": 1,
+          "numberOfSides": 20,
+          "toAdd": 2
+        },
+        "onHit": {
+          "numberOfDice": 2,
+          "numberOfSides": 8,
+          "toAdd": 2
+        }
+      },
+      {
+        "discription": "range 30/120 ft.",
+        "id": "7C459A49-9710-4CB7-9BDA-DD5071C25537",
+        "name": "Javelin",
+        "roll": {
+          "numberOfDice": 1,
+          "numberOfSides": 20,
+          "toAdd": 4
+        },
+        "onHit": {
+          "numberOfDice": 1,
+          "numberOfSides": 6,
+          "toAdd": 2
+        }
+      }
+    ],
+    "id": "966E5EB7-BA6B-4390-B48D-9E26BD1988E6",
+    "isShowing": true,
+    "OGLContent": true,
+    "name": "Bugbear"
+  }
+]
+```
