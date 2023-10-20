@@ -1,6 +1,7 @@
 ---
 title: "Fiber Counter"
 layout: post
+categories: media
 ---
 
 This is the first application I wrote and published to the [App Store](https://apps.apple.com/us/app/fiber-counter/id1616530799). It was purely a learning exercise to follow an idea through from start to navigating App Store review. Undoubtedly, the most interesting part of this early project was the fact that I had to dip into UIViewControllerRepresentable in order to support emailing functionality that I wanted.
