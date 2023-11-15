@@ -1,6 +1,6 @@
 ---
 title: "Privacy Policy"
-layout: post
+layout: page
 categories: media
 ---
 
